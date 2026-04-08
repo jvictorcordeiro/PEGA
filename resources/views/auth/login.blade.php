@@ -1,101 +1,59 @@
-@extends('templates.templateLogin')
+@extends('layouts.auth')
 
-@section('title')
-    Login
-@endsection
+@section('title', 'Login')
 
 @section('content')
-<div class="container-fluid" style="background-color: white; margin-bottom: 30px; margin-top: 30px;padding: 20px; border-radius: 15px">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-7" style="margin-right: 30px">
-                <div>
-                    <h2 style="color: #3E3767"><strong>Plataforma Eletrônica de Gestão de Almoxarifados (PEGA)</strong></h2>
-                    <p style="color: #3E3767; text-align: justify">
-                        É uma aplicação web desenvolvida no âmbito da cooperação técnica UFAPE-LMTS / UPE com o objetivo de informatizar o gerenciamento de almoxarifados,
-                         auxiliando os responsáveis nas suas rotinas de trabalho,
-                         como controlar o estoque e atender demandas dos solicitantes por materiais etc.
-                    </p>
-                    <h2 style="color: #3E3767"><strong>Quais são os benefícios?</strong></h2>
-                    <p style="color: #3E3767; text-align: justify">
-                        <ul>
-                            <li>
-                                Praticidade e confiabilidade no gerenciamento do almoxarifado, permitindo uma visão holística do setor.
-                            </li>
-                            <li>
-                                Informatização do processo de solicitação, aprovação e controle de estoque e materiais.
-                            </li>
-                            <li>
-                                Acesso fácil por meio da internet.
-                            </li>
-                        </ul>
-                    </p>
-                    <h2 style="color: #3E3767"><strong>Quais materiais posso solicitar?</strong></h2>
-                    <p style="color: #3E3767; text-align: justify">
-                        Quaisquer materiais cadastrados no sistema e disponíveis no estoque da instituição.
-                    </p>
-                </div>
+<div class="card shadow-sm border-0">
+    <div class="card-body p-4 p-md-5">
+        <div class="row g-4 align-items-start">
+            <div class="col-md-7">
+                <h2 class="text-primary fw-bold">Plataforma Eletrônica de Gestão de Almoxarifados (PEGA)</h2>
+                <p class="text-muted">
+                    Aplicação web para informatizar rotinas de almoxarifado, controle de estoque e atendimento de solicitações.
+                </p>
+                <ul class="text-muted mb-0">
+                    <li>Mais praticidade e confiabilidade na gestão do setor.</li>
+                    <li>Fluxo digital de solicitação, aprovação e entrega de materiais.</li>
+                    <li>Acesso via internet com autenticação institucional.</li>
+                </ul>
             </div>
-            <div class="col-sm-5" style="margin-right: -100px">
-                <h3 style="font-family: 'Segoe UI'; color: #3E3767; text-align: center; margin-left: -10%"><u>Entrar</u></h3>
-                <form method="POST" action="{{ route('login') }}">
+
+            <div class="col-md-5">
+                <h3 class="h4 mb-3">Entrar</h3>
+                <form method="POST" action="{{ route('login') }}" class="vstack gap-3">
                     @csrf
-                    <div class="form-group col-md-11">
-                        <label for="email" class="control-label"
-                               style="font-family: 'Segoe UI'; color: #3E3767; font-weight: bold; font-size: 20px">E-mail</label>
-                        <input id="email" type="email" name="email"
-                               class="form-control @error('email') is-invalid @enderror" name="email"
-                               value="{{ old('email') }}"
-                               style="padding: 0; color: black; border-radius: 0; box-shadow: none; border: none; border-bottom: 1px solid"
-                               required autocomplete="email" autofocus>
+
+                    <div>
+                        <label for="email" class="form-label">E-mail</label>
+                        <input id="email" type="email" name="email" value="{{ old('email') }}"
+                               class="form-control @error('email') is-invalid @enderror" required autocomplete="email" autofocus>
                         @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-group col-md-11">
-                        <label for="password" class="control-label"
-                               style="font-family: 'Segoe UI'; color: #3E3767; font-weight: bold; font-size: 20px">Senha</label>
+
+                    <div>
+                        <label for="password" class="form-label">Senha</label>
                         <input id="password" type="password" name="password"
-                               class="form-control @error('password') is-invalid @enderror"
-                               style="padding: 0; color: black; border-radius: 0; box-shadow: none; border: none; border-bottom: 1px solid"
-                               required autocomplete="current-password">
-
+                               class="form-control @error('password') is-invalid @enderror" required autocomplete="current-password">
                         @error('password')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
+                        <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-check">
-                        <input class="form-control-check-input" type="checkbox" name="remember"
-                               id="remember" {{ old('remember') ? 'checked' : '' }}>
 
-                        <label class="form-check-label" for="remember">
-                            {{ __('Lembrar E-mail e Senha') }}
-                        </label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <label class="form-check-label" for="remember">Lembrar e-mail e senha</label>
                     </div>
-                    <br>
-                    <div class="form-group col-md-11">
-                        <button type="submit" class="btn btn-success btn-block">
-                            {{ __('Entrar') }}
-                        </button>
-                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">Entrar</button>
+
                     @if (Route::has('password.request'))
-                        <div class="form-group col-md-11">
-                            <center>
-                                <a class=" btn-link" href="{{ route('password.request') }}">Esqueci minha senha</a>
-                            </center>
-                            <hr style="margin-top: 0">
-                        </div>
+                        <a class="text-decoration-none text-center" href="{{ route('password.request') }}">Esqueci minha senha</a>
                     @endif
+
+                    <a href="{{ route('register') }}" class="btn btn-outline-primary w-100">Cadastre-se</a>
                 </form>
-                <div class="form-group col-md-11">
-                    <a type="button" href="{{ route('register') }}" class="btn btn-primary btn-block">
-                        {{ __('Cadastre-se') }}
-                    </a>
-                </div>
             </div>
         </div>
     </div>
